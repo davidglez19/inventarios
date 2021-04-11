@@ -12,7 +12,12 @@ class NewCountPage extends StatelessWidget {
           Fondo(),
           Titulos(textos: 'Nuevo Conteo'),
           Center(
-            child: BotonOpciones(icono: Icons.add_to_photos, texto: 'Crear'),
+            child: GestureDetector(
+              child: BotonOpciones(icono: Icons.add_to_photos, texto: 'Crear'),
+              onTap: (){
+                Navigator.popAndPushNamed(context, 'stock');
+              },
+            ),
           )
         ],
       ),

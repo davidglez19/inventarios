@@ -20,42 +20,41 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _botones(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    
     return SafeArea(
-      child: Container(
-          width: double.infinity,
-          height: double.infinity,
-          margin: EdgeInsets.only(top: 120, right: 20, left: 40),
-          child: Column(
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _boton(context, Icons.add, 'Nuevo conteo', 0),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  _boton(context, Icons.art_track_sharp, 'Conteo dinámico', 1),
-                ],
-              ),
-              SizedBox(
-                height: 60,
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _boton(context, Icons.content_copy_outlined,
-                      'Continuar conteo', 2),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  _boton(
-                      context, Icons.check_circle_outline, 'Validar conteo', 3),
-                ],
-              ),
-            ],
-          )),
-    );
+        child: Container(
+      width: double.infinity,
+      height: double.infinity,
+      margin: EdgeInsets.only(top: 120, right: 40, left: 40),
+      child: SingleChildScrollView(
+              child: Column(
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _boton(context, Icons.add, 'Nuevo conteo', 0),
+                SizedBox(
+                  width: 40,
+                ),
+                _boton(context, Icons.art_track_sharp, 'Conteo dinámico', 1),
+              ]),
+            SizedBox(height: 60),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _boton(context, Icons.content_copy_outlined,
+                    'Continuar conteo', 2),
+                SizedBox(
+                  width: 40,
+                ),
+                _boton(
+                    context, Icons.check_circle_outline, 'Validar conteo', 3),
+              ],
+            ),
+          ],
+        ),
+      )),
+      );
   }
 
   Widget _boton(

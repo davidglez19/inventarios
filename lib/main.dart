@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:inventariour/src/pages/add-stock.dart';
 
 import 'package:inventariour/src/pages/home.dart';
 import 'package:inventariour/src/pages/new-count.dart';
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
       routes: {
         'home': (BuildContext context) => HomePage(),
         'nuevo': (BuildContext context) => NewCountPage(),
+        'stock': (BuildContext contex) => AddStockPage()
       },
     );
   }

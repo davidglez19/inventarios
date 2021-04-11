@@ -10,9 +10,10 @@ class BotonOpciones extends StatelessWidget {
   Widget build(BuildContext context) {
     final _size = MediaQuery.of(context).size;
     return Container(
-      padding: EdgeInsets.only(top: 20),
-      width: _size.width * 0.35,
-      height: _size.width * 0.35,
+      
+      width: 100,
+      height: 100,
+      
       decoration: BoxDecoration(
           color: Color(0xFFbfcacd),
           borderRadius: BorderRadius.circular(20),
@@ -24,23 +25,24 @@ class BotonOpciones extends StatelessWidget {
             )
           ]),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           CircleAvatar(
             backgroundColor: Colors.white70,
-            maxRadius: 30,
+            maxRadius: 25,
             child: Icon(
               icono,
               color: Color(0xff0e3256),
-              size: 35,
+              size: 32.5,
             ),
           ),
+          SizedBox(height: 5,),
           Text(
             texto,
             style: TextStyle(
                 fontFamily: 'dmfont',
                 fontStyle: FontStyle.italic,
-                fontSize: 12.5,
+                fontSize: 11.5,
                 color: Color(0xff1f8100)),
           )
         ],
