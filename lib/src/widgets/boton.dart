@@ -8,12 +8,9 @@ class BotonOpciones extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _size = MediaQuery.of(context).size;
     return Container(
-      
       width: 100,
       height: 100,
-      
       decoration: BoxDecoration(
           color: Color(0xFFbfcacd),
           borderRadius: BorderRadius.circular(20),
@@ -36,7 +33,9 @@ class BotonOpciones extends StatelessWidget {
               size: 32.5,
             ),
           ),
-          SizedBox(height: 5,),
+          SizedBox(
+            height: 5,
+          ),
           Text(
             texto,
             style: TextStyle(

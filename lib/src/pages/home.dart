@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:inventariour/src/widgets/boton.dart';
 import 'package:inventariour/src/widgets/fondo.dart';
@@ -20,46 +22,42 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _botones(BuildContext context) {
-    
     return SafeArea(
-        child: Container(
-      width: double.infinity,
-      height: double.infinity,
-      margin: EdgeInsets.only(top: 120, right: 40, left: 40),
-      child: SingleChildScrollView(
-              child: Column(
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      child: Container(
+          width: double.infinity,
+          height: double.infinity,
+          margin: EdgeInsets.only(top: 120, right: 40, left: 40),
+          child: SingleChildScrollView(
+            child: Column(
               children: [
-                _boton(context, Icons.add, 'Nuevo conteo', 0),
-                SizedBox(
-                  width: 40,
+                Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  _boton(context, Icons.add, 'Nuevo conteo', 0),
+                  SizedBox(
+                    width: 40,
+                  ),
+                  _boton(context, Icons.art_track_sharp, 'Conteo dinámico', 1),
+                ]),
+                SizedBox(height: 60),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _boton(context, Icons.content_copy_outlined,
+                        'Continuar conteo', 2),
+                    SizedBox(
+                      width: 40,
+                    ),
+                    _boton(context, Icons.check_circle_outline,
+                        'Validar conteo', 3),
+                  ],
                 ),
-                _boton(context, Icons.art_track_sharp, 'Conteo dinámico', 1),
-              ]),
-            SizedBox(height: 60),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _boton(context, Icons.content_copy_outlined,
-                    'Continuar conteo', 2),
-                SizedBox(
-                  width: 40,
-                ),
-                _boton(
-                    context, Icons.check_circle_outline, 'Validar conteo', 3),
               ],
             ),
-          ],
-        ),
-      )),
-      );
+          )),
+    );
   }
 
   Widget _boton(
       BuildContext context, IconData _icono, String _texto, int _opcion) {
-    final _size = MediaQuery.of(context).size;
     return GestureDetector(
         onTap: () {
           switch (_opcion) {
@@ -70,7 +68,10 @@ class HomePage extends StatelessWidget {
               print('Conteo dinamico');
               break;
             case 2:
-              print('Continuar conteo');
+              Random rnd = new Random();
+              int folio = rnd.nextInt(32000);
+              Navigator.of(context)
+                  .pushNamed('listar', arguments: {'folio': folio.toString()});
               break;
             case 3:
               print('Validar conteo');

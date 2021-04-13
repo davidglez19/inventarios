@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:inventariour/src/pages/add-stock.dart';
 
 import 'package:inventariour/src/pages/home.dart';
+import 'package:inventariour/src/pages/listar-conteo.dart';
+import 'package:inventariour/src/pages/listar-productos.dart';
 import 'package:inventariour/src/pages/new-count.dart';
 
 void main() {
@@ -19,7 +21,9 @@ class MyApp extends StatelessWidget {
       routes: {
         'home': (BuildContext context) => HomePage(),
         'nuevo': (BuildContext context) => NewCountPage(),
-        'stock': (BuildContext contex) => AddStockPage()
+        'stock': (BuildContext contex) => AddStockPage(),
+        'listar': (BuildContext contex) => ListarPage(),
+        'listar-productos': (BuildContext contex) => ListarProductosPage()
       },
     );
   }
