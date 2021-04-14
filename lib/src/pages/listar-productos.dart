@@ -3,24 +3,32 @@ import 'package:inventariour/src/models/producto-sql.model.dart';
 import 'package:inventariour/src/services/producto-sql.services.dart';
 
 class ListarProductosPage extends StatefulWidget {
+  final String numFolio;
+  ListarProductosPage({this.numFolio});
+
   @override
   _ListarProductosPageState createState() => _ListarProductosPageState();
 }
 
 class _ListarProductosPageState extends State<ListarProductosPage> {
-  Future<List<ProductoSql>> productos;
+  
+  
+  // Future<List<ProductoSql>> productos;
   DBProductos dbProductos;
 
   @override
   void initState() {
     super.initState();
     dbProductos = new DBProductos();
-
-    productos = dbProductos.getProductosLista('11728');
+    // final args = ModalRoute.of(context).settings.arguments as Map;
+    // productos = dbProductos.getProductosLista('123');
+    // print(args['folio']);
   }
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context).settings.arguments as Map;
+    print(args['folio']);
     return Scaffold(
       appBar: AppBar(
         title: Text('Listar'),
@@ -29,12 +37,12 @@ class _ListarProductosPageState extends State<ListarProductosPage> {
               icon: Icon(Icons.add),
               onPressed: () {
                 Navigator.popAndPushNamed(context, 'stock',
-                    arguments: {'folio': '11728'});
+                    arguments: {'folio': args['folio']});
               })
         ],
       ),
       body: FutureBuilder(
-        future: productos,
+        future: dbProductos.getProductosLista(args['folio']),
         builder:
             (BuildContext context, AsyncSnapshot<List<ProductoSql>> snapshot) {
           if (snapshot.hasData) {

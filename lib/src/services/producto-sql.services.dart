@@ -38,8 +38,10 @@ class DBProductos {
 
   Future<List<ProductoSql>> getProductosLista(String folio) async {
     var dbClient = await db;
-    List<Map> maps = await dbClient.query('productos',
-        columns: ['id', 'folio', 'descripcion', 'existencia'], where: folio);
+    print('QUERY FOLIO $folio');
+    // List<Map> maps = await dbClient.query('productos',
+    //     columns: ['id', 'folio', 'descripcion', 'existencia'], whereArgs: [{'folio':folio }]);
+    List<Map> maps = await dbClient.rawQuery('SELECT * FROM productos WHERE folio = $folio' );
     List<ProductoSql> productos = [];
     if (maps.length > 0) {
       for (var producto in maps) {

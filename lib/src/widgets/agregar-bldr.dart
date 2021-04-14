@@ -4,18 +4,26 @@ import 'package:inventariour/src/models/producto-sql.model.dart';
 import 'package:inventariour/src/services/producto-Api.service.dart';
 import 'package:inventariour/src/services/producto-sql.services.dart';
 
+
 class AgregarBldr extends StatefulWidget {
   final String folio;
-  AgregarBldr({@required this.folio});
+  final String productoBar;
+  
+  AgregarBldr({@required this.folio, @required this.productoBar});
 
   @override
-  _AgregarBldrState createState() => _AgregarBldrState(folio: this.folio);
+  _AgregarBldrState createState() => _AgregarBldrState(folio: this.folio, productoBar: this.productoBar);
 }
 
 class _AgregarBldrState extends State<AgregarBldr> {
   String folio;
+  String productoBar;
 
-  _AgregarBldrState({this.folio});
+  
+  
+  
+
+  _AgregarBldrState({this.folio, this.productoBar});
 
   final GlobalKey<FormState> _formStateKey = GlobalKey<FormState>();
 
@@ -40,12 +48,15 @@ class _AgregarBldrState extends State<AgregarBldr> {
   void initState() {
     super.initState();
     dbProductos = DBProductos();
+    
   }
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context).settings.arguments as Map;
+    (folio != null) ? folio = folio : folio = args['folio'];
     return FutureBuilder(
-      future: servicioProductoApi.getProducto('123'),
+      future: servicioProductoApi.getProducto(productoBar),
       builder: (BuildContext context, AsyncSnapshot<ProductoApi> snapshot) {
         if (!snapshot.hasData) {
           return Center(child: CircularProgressIndicator());
@@ -115,7 +126,7 @@ class _AgregarBldrState extends State<AgregarBldr> {
                 children: [
                   ElevatedButton(
                       onPressed: () {
-                        print('Valor folio ${this.folio}');
+                        print('Valor folio $folio');
                         if (_formStateKey.currentState.validate()) {
                           _formStateKey.currentState.save();
                           dbProductos.add(ProductoSql(

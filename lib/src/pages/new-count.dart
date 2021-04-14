@@ -6,6 +6,7 @@ import 'package:inventariour/src/services/producto-sql.services.dart';
 import 'package:inventariour/src/widgets/boton.dart';
 import 'package:inventariour/src/widgets/fondo.dart';
 import 'package:inventariour/src/widgets/titulos.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 // ignore: must_be_immutable
 class NewCountPage extends StatefulWidget {
@@ -15,11 +16,26 @@ class NewCountPage extends StatefulWidget {
 
 class _NewCountPageState extends State<NewCountPage> {
   DBFolios dbfolio;
-
+  String codigoBarras;
   @override
   void initState() {
     super.initState();
     dbfolio = DBFolios();
+    scannerCodigo(context);
+  }
+
+
+Future scannerCodigo(BuildContext context) async {
+    
+    String scannerCode = await FlutterBarcodeScanner.scanBarcode(
+        '#2D96F5', 'Cancelar', false, ScanMode.BARCODE);
+    if (scannerCode == '-1') {
+      return Navigator.popAndPushNamed(context, 'home');
+      // return Navigator.pushNamed(context, 'respuesta');
+    } else {
+      codigoBarras = scannerCode;
+      print(codigoBarras);
+    }
   }
 
   @override

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:inventariour/src/widgets/agregar-bldr.dart';
 import 'package:inventariour/src/widgets/fondo.dart';
 import 'package:inventariour/src/widgets/titulos.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+
 
 class AddStockPage extends StatefulWidget {
   @override
@@ -9,6 +11,34 @@ class AddStockPage extends StatefulWidget {
 }
 
 class _AddStockPageState extends State<AddStockPage> {
+
+String codigoBarras;
+@override
+  
+@override
+void initState() { 
+  super.initState();
+  scannerCodigo(context);
+  
+  
+}
+Future scannerCodigo(BuildContext context) async {
+    
+    String scannerCode = await FlutterBarcodeScanner.scanBarcode(
+        '#2D96F5', 'Cancelar', false, ScanMode.BARCODE);
+    if (scannerCode == '-1') {
+      return Navigator.popAndPushNamed(context, 'home');
+      // return Navigator.pushNamed(context, 'respuesta');
+    } else {
+      codigoBarras = scannerCode;
+      print(codigoBarras);
+      return Navigator.popAndPushNamed(context, 'stock');
+    }
+  }
+
+  
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,7 +105,7 @@ class _AddStockPageState extends State<AddStockPage> {
                     offset: Offset(3, 4),
                   ),
                 ]),
-            child: AgregarBldr(folio: args['folio']),
+            child: AgregarBldr(folio: args['folio'], productoBar:codigoBarras ,),
           ),
         ],
       ),

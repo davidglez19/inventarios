@@ -52,8 +52,10 @@ class _ListarPageState extends State<ListarPage> {
           rows: folios
               .map((folio) => DataRow(cells: [
                     DataCell(Text(folio.folio), onTap: () {
+                      String folioSelect = folio.folio;
+                      print('Valor del folio en listar  $folioSelect');
                       Navigator.popAndPushNamed(context, 'listar-productos',
-                          arguments: {'folio': folio.folio});
+                          arguments: {'folio': folioSelect});
                     }),
                   ]))
               .toList(),
