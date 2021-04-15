@@ -2,11 +2,13 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:inventariour/src/models/producto-sql.model.dart';
+import 'package:inventariour/src/services/producto-Api.service.dart';
 import 'package:inventariour/src/services/producto-sql.services.dart';
 import 'package:inventariour/src/widgets/boton.dart';
 import 'package:inventariour/src/widgets/fondo.dart';
 import 'package:inventariour/src/widgets/titulos.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class NewCountPage extends StatefulWidget {
@@ -21,25 +23,11 @@ class _NewCountPageState extends State<NewCountPage> {
   void initState() {
     super.initState();
     dbfolio = DBFolios();
-    scannerCodigo(context);
-  }
-
-
-Future scannerCodigo(BuildContext context) async {
-    
-    String scannerCode = await FlutterBarcodeScanner.scanBarcode(
-        '#2D96F5', 'Cancelar', false, ScanMode.BARCODE);
-    if (scannerCode == '-1') {
-      return Navigator.popAndPushNamed(context, 'home');
-      // return Navigator.pushNamed(context, 'respuesta');
-    } else {
-      codigoBarras = scannerCode;
-      print(codigoBarras);
-    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final productoServices = Provider.of<ServicioProductoApi>(context);
     return Scaffold(
       body: Stack(
         children: [
@@ -48,14 +36,19 @@ Future scannerCodigo(BuildContext context) async {
           Center(
             child: GestureDetector(
               child: BotonOpciones(icono: Icons.add_to_photos, texto: 'Crear'),
-              onTap: () {
-                Random rnd = new Random();
-                int folio = rnd.nextInt(32000);
-                dbfolio.addFolio(
-                    ProductoSqlFolios(id: null, folio: folio.toString()));
-
-                Navigator.popAndPushNamed(context, 'stock',
-                    arguments: {'folio': folio.toString()});
+              onTap: () async {
+                String scannerCode = await FlutterBarcodeScanner.scanBarcode(
+                    '#2D96F5', 'Cancelar', false, ScanMode.BARCODE);
+                if (scannerCode != '-1') {
+                  productoServices.idCodigo = scannerCode;
+                  Random rnd = new Random();
+                  int folio = rnd.nextInt(32000);
+                  dbfolio.addFolio(
+                      ProductoSqlFolios(id: null, folio: folio.toString()));
+                  return Navigator.popAndPushNamed(context, 'stock',
+                      arguments: {'folio': folio.toString()});
+                  // return Navigator.pushNamed(context, 'respuesta');
+                }
               },
             ),
           )

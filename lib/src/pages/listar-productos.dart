@@ -11,8 +11,6 @@ class ListarProductosPage extends StatefulWidget {
 }
 
 class _ListarProductosPageState extends State<ListarProductosPage> {
-  
-  
   // Future<List<ProductoSql>> productos;
   DBProductos dbProductos;
 
@@ -45,14 +43,14 @@ class _ListarProductosPageState extends State<ListarProductosPage> {
         future: dbProductos.getProductosLista(args['folio']),
         builder:
             (BuildContext context, AsyncSnapshot<List<ProductoSql>> snapshot) {
-          if (snapshot.hasData) {
+          if (!snapshot.hasData) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasData && snapshot.data.isNotEmpty) {
             return generarLista(snapshot.data);
-          } else if (snapshot.data == null || snapshot.data.length == 0) {
-            return Center(
-              child: Text('No se a generado ningún conteo'),
-            );
           } else {
-            return CircularProgressIndicator();
+            return Center(
+              child: Text('Ningún producto en el folio'),
+            );
           }
         },
       ),

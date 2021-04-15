@@ -26,14 +26,14 @@ class _ListarPageState extends State<ListarPage> {
         future: folios,
         builder: (BuildContext context,
             AsyncSnapshot<List<ProductoSqlFolios>> snapshot) {
-          if (snapshot.hasData) {
+          if (!snapshot.hasData) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasData && snapshot.data.isNotEmpty) {
             return generarLista(snapshot.data);
-          } else if (snapshot.data == null || snapshot.data.length == 0) {
+          } else {
             return Center(
               child: Text('No se a generado ningún conteo'),
             );
-          } else {
-            return CircularProgressIndicator();
           }
         },
       ),

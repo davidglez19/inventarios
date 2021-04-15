@@ -4,26 +4,20 @@ import 'package:inventariour/src/widgets/fondo.dart';
 import 'package:inventariour/src/widgets/titulos.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
-
 class AddStockPage extends StatefulWidget {
   @override
   _AddStockPageState createState() => _AddStockPageState();
 }
 
 class _AddStockPageState extends State<AddStockPage> {
+  String codigoBarras;
+  @override
+  @override
+  void initState() {
+    super.initState();
+  }
 
-String codigoBarras;
-@override
-  
-@override
-void initState() { 
-  super.initState();
-  scannerCodigo(context);
-  
-  
-}
-Future scannerCodigo(BuildContext context) async {
-    
+  Future scannerCodigo(BuildContext context) async {
     String scannerCode = await FlutterBarcodeScanner.scanBarcode(
         '#2D96F5', 'Cancelar', false, ScanMode.BARCODE);
     if (scannerCode == '-1') {
@@ -32,12 +26,8 @@ Future scannerCodigo(BuildContext context) async {
     } else {
       codigoBarras = scannerCode;
       print(codigoBarras);
-      return Navigator.popAndPushNamed(context, 'stock');
     }
   }
-
-  
-
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +47,11 @@ Future scannerCodigo(BuildContext context) async {
 
   SingleChildScrollView _addStockWidget(String _titulo) {
     final args = ModalRoute.of(context).settings.arguments as Map;
+    print('Argunmentos Stock $args');
+    if (args == null) {
+      scannerCodigo(context);
+    }
+
     final size = MediaQuery.of(context).size;
     return SingleChildScrollView(
       child: Column(
@@ -105,7 +100,7 @@ Future scannerCodigo(BuildContext context) async {
                     offset: Offset(3, 4),
                   ),
                 ]),
-            child: AgregarBldr(folio: args['folio'], productoBar:codigoBarras ,),
+            child: AgregarBldr(folio: args['folio']),
           ),
         ],
       ),
