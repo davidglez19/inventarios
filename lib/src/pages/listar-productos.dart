@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:inventariour/src/models/producto-sql.model.dart';
+import 'package:inventariour/src/services/data-notifier.dart';
 import 'package:inventariour/src/services/producto-sql.services.dart';
+import 'package:provider/provider.dart';
 
 class ListarProductosPage extends StatefulWidget {
   final String numFolio;
@@ -25,8 +27,9 @@ class _ListarProductosPageState extends State<ListarProductosPage> {
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context).settings.arguments as Map;
-    print(args['folio']);
+    // final args = ModalRoute.of(context).settings.arguments as Map;
+    // print(args['folio']);
+    final productoService = Provider.of<DataNotifiter>(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Listar'),
@@ -35,12 +38,12 @@ class _ListarProductosPageState extends State<ListarProductosPage> {
               icon: Icon(Icons.add),
               onPressed: () {
                 Navigator.popAndPushNamed(context, 'stock',
-                    arguments: {'folio': args['folio']});
+                    arguments: {'info':'continuar'});
               })
         ],
       ),
       body: FutureBuilder(
-        future: dbProductos.getProductosLista(args['folio']),
+        future: dbProductos.getProductosLista(productoService.idFolio),
         builder:
             (BuildContext context, AsyncSnapshot<List<ProductoSql>> snapshot) {
           if (!snapshot.hasData) {

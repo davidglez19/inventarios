@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:inventariour/src/services/data-notifier.dart';
 import 'package:inventariour/src/widgets/agregar-bldr.dart';
 import 'package:inventariour/src/widgets/fondo.dart';
 import 'package:inventariour/src/widgets/titulos.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:provider/provider.dart';
 
 class AddStockPage extends StatefulWidget {
   @override
@@ -10,27 +12,41 @@ class AddStockPage extends StatefulWidget {
 }
 
 class _AddStockPageState extends State<AddStockPage> {
-  String codigoBarras;
-  @override
-  @override
-  void initState() {
-    super.initState();
+  bool escaneo = false;
+    
+ @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+      Navigator.pushReplacementNamed(context, 'home');
   }
-
-  Future scannerCodigo(BuildContext context) async {
+   scannerCodigo(BuildContext context) async {
+  final productoService = Provider.of<DataNotifiter>(context, listen: false);
+  final args = ModalRoute.of(context).settings.arguments as Map;
     String scannerCode = await FlutterBarcodeScanner.scanBarcode(
         '#2D96F5', 'Cancelar', false, ScanMode.BARCODE);
     if (scannerCode == '-1') {
-      return Navigator.popAndPushNamed(context, 'home');
-      // return Navigator.pushNamed(context, 'respuesta');
+       dispose();
+       
     } else {
-      codigoBarras = scannerCode;
-      print(codigoBarras);
+      productoService.idCodigo =  scannerCode;
+      args['info'] = 'nuevo';
+      
     }
   }
+ 
+ 
+ 
 
   @override
   Widget build(BuildContext context) {
+    final args = ModalRoute.of(context).settings.arguments as Map;
+    if(args['info'] == 'continuar'){
+      scannerCodigo(context);
+    }
+    final productoSerivices = Provider.of<DataNotifiter>(context);
+    print('CODIGO ESCANEADO: => ${productoSerivices.idCodigo}');
+    print('FOLIO: =>  ${productoSerivices.idFolio}');
     return Scaffold(
       body: Stack(
         children: [
@@ -46,11 +62,11 @@ class _AddStockPageState extends State<AddStockPage> {
   }
 
   SingleChildScrollView _addStockWidget(String _titulo) {
-    final args = ModalRoute.of(context).settings.arguments as Map;
-    print('Argunmentos Stock $args');
-    if (args == null) {
-      scannerCodigo(context);
-    }
+    // final args = ModalRoute.of(context).settings.arguments as Map;
+    // print('Argunmentos Stock $args');
+    // if (args == null) {
+    //   scannerCodigo(context);
+    // }
 
     final size = MediaQuery.of(context).size;
     return SingleChildScrollView(
@@ -100,7 +116,7 @@ class _AddStockPageState extends State<AddStockPage> {
                     offset: Offset(3, 4),
                   ),
                 ]),
-            child: AgregarBldr(folio: args['folio']),
+            child: AgregarBldr(),
           ),
         ],
       ),

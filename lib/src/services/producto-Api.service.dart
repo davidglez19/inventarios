@@ -1,19 +1,10 @@
 import 'dart:convert';
-import 'package:flutter/material.dart';
+
 import 'package:http/http.dart' as http;
 import 'package:inventariour/src/models/producto-Api.model.dart';
 
-class ServicioProductoApi extends ChangeNotifier {
-  String _idCodigo;
+class ServicioProductoApi {
 
-  String get idCodigo {
-    return this._idCodigo;
-  }
-
-  set idCodigo(String id) {
-    this._idCodigo = id;
-    notifyListeners();
-  }
 
 //http://ursoft.ddns.net/verificator-app/v1/articulos/123
 

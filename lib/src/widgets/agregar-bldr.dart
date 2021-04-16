@@ -2,23 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:inventariour/src/models/producto-Api.model.dart';
 import 'package:inventariour/src/models/producto-sql.model.dart';
+import 'package:inventariour/src/services/data-notifier.dart';
 import 'package:inventariour/src/services/producto-Api.service.dart';
 import 'package:inventariour/src/services/producto-sql.services.dart';
 import 'package:provider/provider.dart';
 
 class AgregarBldr extends StatefulWidget {
-  final String folio;
+  
 
-  AgregarBldr({@required this.folio});
+  
 
   @override
-  _AgregarBldrState createState() => _AgregarBldrState(folio: this.folio);
+  _AgregarBldrState createState() => _AgregarBldrState();
 }
 
 class _AgregarBldrState extends State<AgregarBldr> {
-  String folio;
+  
 
-  _AgregarBldrState({this.folio});
+  
 
   final GlobalKey<FormState> _formStateKey = GlobalKey<FormState>();
 
@@ -39,17 +40,7 @@ class _AgregarBldrState extends State<AgregarBldr> {
     color: Color(0xff0e3256),
   );
 
-  Future scannerCodigo(BuildContext context) async {
-    final productoServices = Provider.of<ServicioProductoApi>(context);
-    String scannerCode = await FlutterBarcodeScanner.scanBarcode(
-        '#2D96F5', 'Cancelar', false, ScanMode.BARCODE);
-    if (scannerCode == '-1') {
-      return Navigator.popAndPushNamed(context, 'home');
-      // return Navigator.pushNamed(context, 'respuesta');
-    } else {
-      productoServices.idCodigo = scannerCode;
-    }
-  }
+ 
 
   @override
   void initState() {
@@ -59,14 +50,14 @@ class _AgregarBldrState extends State<AgregarBldr> {
 
   @override
   Widget build(BuildContext context) {
-    final productoServices = Provider.of<ServicioProductoApi>(context);
-    final args = ModalRoute.of(context).settings.arguments as Map;
-    if (folio == null) {
-      folio = args['folio'];
-    } else {
-      folio = folio;
-      print('Folio seleccionado $folio');
-    }
+    final productoServices = Provider.of<DataNotifiter>(context);
+    // final args = ModalRoute.of(context).settings.arguments as Map;
+    // if (folio == null) {
+    //   folio = args['folio'];
+    // } else {
+    //   folio = folio;
+    //   print('Folio seleccionado $folio');
+    // }
     return FutureBuilder(
       future: servicioProductoApi.getProducto(productoServices.idCodigo),
       builder: (BuildContext context, AsyncSnapshot<ProductoApi> snapshot) {
@@ -138,17 +129,16 @@ class _AgregarBldrState extends State<AgregarBldr> {
                 children: [
                   ElevatedButton(
                       onPressed: () {
-                        print('Valor folio $folio');
+                        print('Valor folio ${productoServices.idFolio}');
                         if (_formStateKey.currentState.validate()) {
                           _formStateKey.currentState.save();
                           dbProductos.add(ProductoSql(
                               id: null,
-                              folio: this.folio,
+                              folio: productoServices.idFolio,
                               descripcion: snapshot.data.nombreArticulo,
                               existencia: _existencias));
                           _existenciasController.text = '';
-                          Navigator.popAndPushNamed(context, 'stock',
-                              arguments: {'folio': this.folio});
+                          Navigator.popAndPushNamed(context, 'stock', arguments: {'info': 'continuar'});
                         }
                       },
                       child: Text('Agregar')),
@@ -168,7 +158,7 @@ class _AgregarBldrState extends State<AgregarBldr> {
             ],
           );
         } else {
-          return Text('Código no encontrado');
+          return Center(child: Text('Código no encontrado'));
         }
       },
     );

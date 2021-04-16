@@ -62,7 +62,7 @@ class HomePage extends StatelessWidget {
         onTap: () {
           switch (_opcion) {
             case 0:
-              Navigator.of(context).popAndPushNamed('nuevo');
+              Navigator.of(context).pushReplacementNamed('nuevo');
               break;
             case 1:
               print('Conteo dinamico');

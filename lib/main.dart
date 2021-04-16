@@ -6,7 +6,7 @@ import 'package:inventariour/src/pages/home.dart';
 import 'package:inventariour/src/pages/listar-conteo.dart';
 import 'package:inventariour/src/pages/listar-productos.dart';
 import 'package:inventariour/src/pages/new-count.dart';
-import 'package:inventariour/src/services/producto-Api.service.dart';
+import 'package:inventariour/src/services/data-notifier.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => ServicioProductoApi())],
+      providers: [ChangeNotifierProvider(create: (_) => DataNotifiter())],
       child: MaterialApp(
         initialRoute: 'home',
         routes: {

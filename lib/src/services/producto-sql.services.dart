@@ -99,4 +99,9 @@ class DBFolios {
     }
     return folios;
   }
+
+  Future<int> delteFolio(int id ) async {
+    var dbCliente = await db;
+    return await dbCliente.delete('folios', where: 'id = ? ', whereArgs: [id]);
+  }
 }
