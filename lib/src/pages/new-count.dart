@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:inventariour/src/models/producto-sql.model.dart';
 import 'package:inventariour/src/services/data-notifier.dart';
-import 'package:inventariour/src/services/producto-Api.service.dart';
 import 'package:inventariour/src/services/producto-sql.services.dart';
 import 'package:inventariour/src/widgets/boton.dart';
 import 'package:inventariour/src/widgets/fondo.dart';
@@ -47,9 +46,10 @@ class _NewCountPageState extends State<NewCountPage> {
                   productoServices.idFolio = folio.toString();
                   dbfolio.addFolio(
                       ProductoSqlFolios(id: null, folio: folio.toString()));
-                    Navigator.pushReplacementNamed(context, 'stock', arguments: {'info':'nuevo'});
+                  Navigator.popAndPushNamed(context, 'stock',
+                      arguments: {'info': 'nuevo'});
                   // return Navigator.pushNamed(context, 'respuesta');
-                }else {
+                } else {
                   Navigator.popAndPushNamed(context, 'home');
                 }
               },
